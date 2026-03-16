@@ -3,19 +3,96 @@
 
 
 
-
-* Sh1mmer only works with some 3110 models, so some 3110s may have a different key/signature compared to other 3110s; the 
-    key could be the HWID.
-
-    * The CRET-BKLL and CRET360-HXIQ sections of the HWID do not seem to be the reason why the sh1mmer does not work. In fact it 
-        is pretty clear now that they just reference what model they are. **(CRET-BKLL = 3110, CRET360-BKLL = 3110 2in1)**
-
-    * C7B-G3F-I4I-48V-A6M-A2C-A7E <- **This HWID worked with sh1mmer**. **Side Note** These numbers seem to be completely random on 
-        each board but I am hoping that there is some correlation between the ones that do not accept sh1mmer and the ones that do.
     
-    * C8B-I2D-I4I-Q98-45A-I4I <- **This HWID worked with sh1mmer**
+* Sh1mmer only works with some 3110 models, so some 3110s may have a different key/signature compared to other 3110s;
 
-    * C8B-C2E-G4G-R2I-X8M-A6C-A4R <- **This HWID does not work with sh1mmer**
+    * If the key/signature is the problem the HWID is not the key.
+
+    * This is a copy of the debug info for a 3110 that the sh1mmer did not work on.
+        
+        HWID: CRET-BKLL C7B-G2I-J5J-S4R-W5E-A4A-A4I
+        recovery_reason: 0x02 / 0x00 Recovery button pressed
+        context.flags: 0x000000000030809c
+        shared_data.status: 0x00000103
+        nvdata: 60 10 00 00 00 02 00 4c 00 fe ff 00 00 ff ff 78
+        dev_boot_usb: 0
+        dev_boot_legacy: 0
+        dev_default_boot: 0
+        dev_boot_signed_only: 0
+        TPM: fwver=0x00010001 kernver:0x00010004
+        gbb.flags: 0x00000000
+        gbb.rootkey: 941ff16caa37bdf3299955332c9e1b9cfdbed357
+        gbb.recovery_key: 37018060a9234607239c05e99edfdce9f5ff5439
+        read-only firmware id: Google_Cret.13606.573.0
+        active firmware id: Google_Cret.13606.573.0
+        battery level: 99%
+        TPM state: v=1 failed tries=0 max_tries=200
+
+    * This is a copy of the debug info for a 3110 that the sh1mmer did work on.
+
+        HWID: CRET350-HXIQ C7B-B2D-H4H-48N-C6M-A2C-A2F
+        recovery_reason: 0x00 / 0x00 Recovery not requested
+        context.flags: 0x0000000000308088
+        shared_data.flags: 0x00000142
+        shared_data.status: 0x0000007e
+        nvdata: 60 10 00 00 00 02 00 00 00 fe ff 00 00 ff ff 70
+        dev_boot_usb: 0
+        dev_boot_legacy: 0
+        dev_default_boot: 0
+        dev_boot_signed_only: 0
+        TPM: fwver=0x00010001 kernver=0x00010004
+        gbb.flags:0x00000000
+        gbb.rootkey:941ff16caa37bdf3299955332c9e1b9cfdbed357
+        gbb.recovery_key: 0839ba3e040eb2f8c9d3d19ee239b735f4c92851
+        kernel_subkey: 230ab7861f739601eb1beffbef94b1f06a0506db
+        read-only firmware id: Google_Cret.13606.426.0
+        active firmware id: Google_Cret.13606.601.0
+        battery level: 95%
+        TPM state: v=1 failed tries=0 max_tries=200
+
+
+        
+
+
+# **Enrollment**
+
+
+
+
+
+##### Removing Enrollment / Shimming
+
+
+
+
+
+* You are not supposed to be able to remove enrollment by design unless you have access to school credentials. Which can then give
+    you access to the schools google admin so you can decomission devices by service tag. Sh1mmer however, bypasses this somehow and removes the service tag from the device. I cannot say for certain, however, that it decomissions the device. 
+    
+    The Sh1mmer was made by the Mercury Workshop team, and they have website **https://sh1mmer.me/**, a github **https://github.com/MercuryWorkshop/sh1mmer**, as well as a discord server; which you can find on their website. 
+    
+    You would need a RAW RMA shim from Dell to make a sh1mmer. They used to have a website dedicated to providing RAW RMA shim files but they had to take it down for legal reasons. 
+
+* Sometimes when a motherboard gets replaced and is assigned a new service tag (through a manual shim or sh1mmer), the old motherboard
+    still retains that old service tag and acts like it is enrolled. The motherboard will not let you enter dev mode in this state and there are two ways you can get around this:
+
+    **Only do this if the sh1mmer does not work**
+
+    * Powerwash the device:
+
+        1. Powerwash
+        2. Go through the OOBE: Click Get Started, Choose a wifi.
+        3. Enter Recovery Mode: Esc + Refresh + Power.
+        4. Ctrl + D then Confirm to enter Developer Mode.
+        5. Ctrl + D again to start the countdown into Developer Mode.
+    
+    * Clear Local Data:
+
+        1. Enter recovery mode: Esc + Refresh + Power.
+        2. Enter Developer Mode: Ctrl + D.
+        3. Select return to Secure Mode. **Side Note** It should say "Confirm returning to Secure Mode" here, if it does, just do what it says.
+        4. Once you return to Secure Mode, repeat steps one and two.
+        5. Ctrl + D again to start the countdown into Developer Mode.
 
 
 
