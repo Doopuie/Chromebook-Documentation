@@ -60,18 +60,18 @@
 
 
 
-##### Removing Enrollment / Shimming
+##### Removing Enrollment
 
 
 
 
 
-* You are not supposed to be able to remove enrollment by design unless you have access to school credentials. Which can then give
-    you access to the schools google admin so you can decomission devices by service tag. Sh1mmer however, bypasses this somehow and removes the service tag from the device. I cannot say for certain, however, that it decomissions the device. 
+* You are not supposed to be able to remove enrollment by design unless you have access to school credentials. Credentials can then give
+    you access to the school's google admin account so you can decomission devices by service tag. Sh1mmer however, bypasses this somehow and removes the service tag and resets the enrollment status on the device.
     
-    The Sh1mmer was made by the Mercury Workshop team, and they have website **https://sh1mmer.me/**, a github **https://github.com/MercuryWorkshop/sh1mmer**, as well as a discord server; which you can find on their website. 
+    The Sh1mmer was made by the Mercury Workshop team (Im going to call them MWT), and they have website **https://sh1mmer.me/**, a github **https://github.com/MercuryWorkshop/sh1mmer**, as well as a discord server; which you can find on their website. 
     
-    You would need a RAW RMA shim from Dell to make a sh1mmer. They used to have a website dedicated to providing RAW RMA shim files but they had to take it down for legal reasons. 
+    You would need RAW RMA shim files from the manufacturer to make a sh1mmer. The MWT used to have a website dedicated to providing RAW RMA shim files but they had to take it down for legal reasons. 
 
 * Sometimes when a motherboard gets replaced and is assigned a new service tag (through a manual shim or sh1mmer), the old motherboard
     still retains that old service tag and acts like it is enrolled. The motherboard will not let you enter dev mode in this state and there are two ways you can get around this:
@@ -80,19 +80,65 @@
 
     * Powerwash the device:
 
-        1. Powerwash
-        2. Go through the OOBE: Click Get Started, Choose a wifi.
-        3. Enter Recovery Mode: Esc + Refresh + Power.
-        4. Ctrl + D then Confirm to enter Developer Mode.
-        5. Ctrl + D again to start the countdown into Developer Mode.
+        1. Powerwash: Ctrl + Alt + Shift + R
+        2. Go through the OOBE: Click "Get Started," then choose a wifi.
     
     * Clear Local Data:
 
         1. Enter recovery mode: Esc + Refresh + Power.
         2. Enter Developer Mode: Ctrl + D.
-        3. Select return to Secure Mode. **Side Note** It should say "Confirm returning to Secure Mode" here, if it does, just do what it says.
-        4. Once you return to Secure Mode, repeat steps one and two.
-        5. Ctrl + D again to start the countdown into Developer Mode.
+        3. Select *Confirm returning to Secure Mode*.
+        4. Go through the OOBE: Click "Get Started," then choose a wifi.
+
+    * After using either of these methods the device should be unenrolled, if not, you would need to have access to the school's
+        google admin account and decomission it. If you do have access to a school's google admin account and decide you need to decomission the device, beware that **YOU COULD DECOMISSION THE DEVICE THAT IS ALREADY REPAIRED.**
+
+
+
+
+
+# **Shimming**
+
+
+
+
+
+##### Manual Method
+
+
+
+
+
+* In order to do this you need to make sure the device is unenrolled. I have provided steps on how to do that in the 
+    Enrollment/Removing Enrollment Section of this document.
+
+1. Enter Recovery Mode: *Esc + Refresh + Power*.
+2. Enter Developer Mode: *Ctrl + D* then Enter.
+3. Hit *Ctrl + D* again to start the countdown into Developer Mode.
+4. Once the countdown has ended, Hit *Ctrl + Alt + Next Page* (Right arrow at the top of the keyboard). The Developer Console 
+    should appear.
+5. Type *root* as the login. **Side Note** If you type anything else, it will prompt you with a password. *Refresh + Power* to 
+    restart the device, repeat step four, and you should be able to type in *root* again.
+6. Type *vpd -sserial_number = service tag here*, **Side Note** For the next two commands you can use the up arrow to reuse your
+    last command so it is easier to type.
+7. Type *vpd -sservice_tag = service tag here*
+8. Type *vpd -sattested_device_id = service tag here*
+9. **Optional** you can type *vpd -l* to list all *vpd* entries to verify you typed everything in correctly. You can also use *vpd -d* to
+    delete an entry.
+10. Either type *reboot* in the console or *Refresh + Power* to restart the device.
+11. Select *Return to Secure Mode*, the *Confirm Returning to Secure Mode*
+
+
+
+
+
+##### Sh1mmer Method
+
+
+
+
+
+1. 
 
 
 
@@ -120,7 +166,7 @@
 
 
 
-# **3110**
+# **3110 Troubleshooting**
 
 
 
